@@ -1,27 +1,45 @@
-# Hover Animations for Terminal-like Typography
+# v
 
-Some hover animations for a terminal-like look based on the effects seen on [https://www.jeandawson.com/](https://www.jeandawson.com/)
+This template should help get you started developing with Vue 3 in Vite.
 
-![Terminal hover effect](https://tympanus.net/codrops/wp-content/uploads/2024/06/terminalhover_feat.jpg)
+## Recommended IDE Setup
 
-[Article on Codrops](https://tympanus.net/codrops/?p=78645)
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-[Demo](http://tympanus.net/Development/LineTextHoverAnimations/)
+## Type Support for `.vue` Imports in TS
 
-## Installation
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
 
-Run this demo on a [local server](https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/set_up_a_local_testing_server).
+## Customize configuration
 
-## Misc
+See [Vite Configuration Reference](https://vite.dev/config/).
 
-Follow Codrops: [X](http://www.X.com/codrops), [Facebook](http://www.facebook.com/codrops), [GitHub](https://github.com/codrops), [Instagram](https://www.instagram.com/codropsss/)
+## Project Setup
 
-## License
-[MIT](LICENSE)
+```sh
+npm install
+```
 
-Made with :blue_heart:  by [Codrops](http://www.codrops.com)
+### Compile and Hot-Reload for Development
 
+```sh
+npm run dev
+```
 
+### Type-Check, Compile and Minify for Production
 
+```sh
+npm run build
+```
 
+### Run Unit Tests with [Vitest](https://vitest.dev/)
 
+```sh
+npm run test:unit
+```
+
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+npm run lint
+```
