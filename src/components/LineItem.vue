@@ -31,7 +31,7 @@ function animate(e: { currentTarget: unknown }) {
 
   spans.forEach((span: unknown) => {
     if (!animators.has(span)) {
-      animators.set(span, createTextAnimator(span))
+      animators.set(span, createTextAnimator(span as HTMLElement))
     }
     animators.get(span).animate()
 
@@ -47,7 +47,7 @@ function animateBack(e: { currentTarget: unknown }) {
 
   spans.forEach((span: unknown) => {
     if (animators.has(span)) {
-      animators.set(span, createTextAnimator(span))
+      animators.set(span, createTextAnimator(span as HTMLElement))
       animators.get(span).reset()
     }
   })

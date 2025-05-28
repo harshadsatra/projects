@@ -1,25 +1,29 @@
+// @ts-ignore
 import { TextSplitter } from './textSplitter.js'
 import { gsap } from 'gsap'
 
 const lettersAndSymbols = 'abcdefghijklmnopqrstuvwxyz!@#$%^&*-_=+;:<>,'.split('')
 
-export function createTextAnimator(textElement) {
+export function createTextAnimator(textElement: HTMLElement): {
+  animate: () => void
+  reset: () => void
+} {
   if (!textElement || !(textElement instanceof HTMLElement)) {
     throw new Error('Invalid text element provided.')
   }
 
-  const splitter = new TextSplitter(textElement, {
+  const splitter: TextSplitter = new TextSplitter(textElement, {
     splitTypeTypes: 'words, chars',
   })
 
-  const originalChars = splitter.getChars().map((char) => char.innerHTML)
+  const originalChars: string[] = splitter.getChars().map((char: HTMLElement) => char.innerHTML)
 
-  function animate() {
+  function animate(): void {
     reset() // cancel any ongoing tweens
 
-    const chars = splitter.getChars()
+    const chars: HTMLElement[] = splitter.getChars()
 
-    chars.forEach((char, position) => {
+    chars.forEach((char: HTMLElement, position: number) => {
       const initialHTML = char.innerHTML
 
       gsap.fromTo(
@@ -29,7 +33,9 @@ export function createTextAnimator(textElement) {
         },
         {
           duration: 0.03,
-          onComplete: () => gsap.set(char, { innerHTML: initialHTML }),
+          onComplete: () => {
+            gsap.set(char, { innerHTML: initialHTML })
+          },
           repeat: 2,
           repeatRefresh: true,
           repeatDelay: 0.05,
@@ -53,10 +59,10 @@ export function createTextAnimator(textElement) {
     )
   }
 
-  function reset() {
-    const chars = splitter.getChars()
+  function reset(): void {
+    const chars: HTMLElement[] = splitter.getChars()
 
-    chars.forEach((char, index) => {
+    chars.forEach((char: HTMLElement, index: number) => {
       gsap.killTweensOf(char)
       char.innerHTML = originalChars[index]
     })
