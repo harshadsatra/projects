@@ -35,7 +35,7 @@ body {
 
 body::after {
   content: '';
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   height: 100%;
@@ -214,7 +214,7 @@ a:focus-visible {
 
 .content__title {
   font-size: 18px;
-  color: var(--color-title);
+  color: var(--color-text);
   margin: 0;
 }
 
