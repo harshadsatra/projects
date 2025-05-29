@@ -25,7 +25,7 @@ export class TextAnimator {
   splitText() {
     // Split text for animation and store the reference.
     this.splitter = new TextSplitter(this.textElement, {
-      splitTypeTypes: 'words, chars',
+      splitTypeTypes: ['words', 'chars'],
     })
 
     // Save the initial state of each character

@@ -33,9 +33,31 @@
             >{{ tag }}</a
           >
         </nav>
+
+        <nav class="frame__demos">
+          <span>Collaborators:</span>
+
+          <a
+            class="hover-effect hover-effect--bg"
+            @click="setCollaborator(0)"
+            :class="{ current: filterObject.collaborators == 0 }"
+            >ALL</a
+          ><a
+            v-for="c in collaborators"
+            :key="c.collaborators_id"
+            class="hover-effect hover-effect--bg"
+            @click="setCollaborator(c.id)"
+            :class="{ current: filterObject.collaborators == c.id }"
+            >{{ c.name }}</a
+          >
+        </nav>
       </header>
-      <ul class="list list--bg list--bg-west" v-if="fileredProjects.length > 0">
-        <template v-for="(project, index) in fileredProjects" :key="index">
+      <ul
+        class="list list--bg list--bg-west"
+        v-if="fileredProjects.length > 0"
+        :key="fileredProjects.length"
+      >
+        <template v-for="(project, index) in fileredProjects" :key="index + project.id">
           <LineItem :project="project" :collaborators="collaborators" />
         </template>
       </ul>
@@ -50,7 +72,7 @@
 
 // This component is a static list of projects, but you can replace it with dynamic data fetching
 import { ref } from 'vue'
-import type { ProjectModal } from '@/plugins/data.modal'
+import type { ProjectModal, CollaboratorModal } from '@/plugins/data.modal'
 import LineItem from '../components/LineItem.vue'
 
 /* UI Mode */
@@ -65,7 +87,7 @@ const setMode = (mode: 'dark' | 'light') => {
 setMode((localStorage.getItem('uiMode') as 'dark' | 'light') || 'dark')
 
 const projects = ref([] as ProjectModal[])
-const collaborators = ref([])
+const collaborators = ref([] as CollaboratorModal[])
 const years = ref(['All'])
 const tags = ref(['All'])
 
@@ -73,8 +95,19 @@ const tags = ref(['All'])
 const filterObject = ref({
   year: 'All',
   tag: ['All'],
+  collaborators: 0,
   is_live: true,
 })
+
+const setCollaborator = (collaborator: number) => {
+  if (collaborator === 0) {
+    filterObject.value.collaborators = 0
+    return
+  }
+
+  filterObject.value.collaborators =
+    filterObject.value.collaborators === collaborator ? 0 : collaborator
+}
 
 const setTag = (tag: string) => {
   if (tag === 'All') {
@@ -111,7 +144,13 @@ const fileredProjects = computed(() =>
     const matchesIsLive =
       filterObject.value.is_live === undefined || project.is_live === filterObject.value.is_live
 
-    return matchesYear && matchesTag && matchesIsLive
+    const matchesCollaborators =
+      filterObject.value.collaborators === 0 ||
+      project.collaborators.some(
+        (collab) => collab.collaborators_id === filterObject.value.collaborators,
+      )
+
+    return matchesYear && matchesTag && matchesIsLive && matchesCollaborators
   }),
 )
 
