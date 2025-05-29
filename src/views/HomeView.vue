@@ -124,6 +124,7 @@ async function fetchData() {
     ])
     const projects_list = await projectsResponse.json()
     projects.value = projects_list.data
+    projects.value.sort((a, b) => parseInt(b.year) - parseInt(a.year))
 
     const collaborators_list = await collaboratorsResponse.json()
     collaborators.value = collaborators_list.data
