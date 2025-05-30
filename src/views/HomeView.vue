@@ -9,7 +9,7 @@
         </ul>
       </div>
       <header class="">
-        <nav class="frame__demos">
+        <nav class="filter_bar">
           <span>Year:</span>
           <a
             v-for="year in years"
@@ -22,7 +22,7 @@
           <!-- <RouterLink class="hover-effect hover-effect--bg" to="/">Home</RouterLink> -->
         </nav>
 
-        <nav class="frame__demos">
+        <nav class="filter_bar">
           <span>Tags:</span>
           <a
             v-for="tag in tags"
@@ -34,7 +34,7 @@
           >
         </nav>
 
-        <nav class="frame__demos">
+        <nav class="filter_bar">
           <span>Collaborators:</span>
 
           <a
@@ -51,12 +51,14 @@
             >{{ c.name }}</a
           >
         </nav>
+
+        <CollaboratorCard
+          v-if="filterObject.collaborator != 0 && selectedCollaborator"
+          :key="filterObject.collaborator"
+          :collaborator="selectedCollaborator"
+        />
       </header>
-      <CollaboratorCard
-        v-if="filterObject.collaborator != 0 && selectedCollaborator"
-        :key="filterObject.collaborator"
-        :collaborator="selectedCollaborator"
-      />
+
       <ul
         class="list list--bg list--bg-west"
         v-if="fileredProjects.length > 0"

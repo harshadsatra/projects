@@ -1,3 +1,5 @@
+@use 'about';
+
 *,
 *::after,
 *::before {
@@ -153,10 +155,10 @@ a:focus-visible {
 .frame__hire {
   grid-area: hire;
 }
-.frame__demos {
+.filter_bar {
   display: flex;
   gap: 0.6rem 1.2rem;
-  margin: 1.8rem 0;
+  margin: 1.3rem 0;
   flex-wrap: wrap;
   font-size: 14px;
 }
@@ -338,7 +340,7 @@ a:focus-visible {
     }
   }
   .frame #cdawrap,
-  .frame__demos {
+  .filter_bar {
     justify-self: start;
   }
 }
@@ -355,4 +357,10 @@ a:focus-visible {
       justify-self: end;
     }
   }
+}
+
+.footer {
+  text-align: center;
+  font-size: 14px;
+  padding: 20px;
 }
