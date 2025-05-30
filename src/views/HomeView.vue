@@ -40,18 +40,23 @@
           <a
             class="hover-effect hover-effect--bg"
             @click="setCollaborator(0)"
-            :class="{ current: filterObject.collaborators == 0 }"
+            :class="{ current: filterObject.collaborator == 0 }"
             >ALL</a
           ><a
             v-for="c in collaborators"
             :key="c.collaborators_id"
             class="hover-effect hover-effect--bg"
             @click="setCollaborator(c.id)"
-            :class="{ current: filterObject.collaborators == c.id }"
+            :class="{ current: filterObject.collaborator == c.id }"
             >{{ c.name }}</a
           >
         </nav>
       </header>
+      <CollaboratorCard
+        v-if="filterObject.collaborator != 0 && selectedCollaborator"
+        :key="filterObject.collaborator"
+        :collaborator="selectedCollaborator"
+      />
       <ul
         class="list list--bg list--bg-west"
         v-if="fileredProjects.length > 0"
@@ -95,18 +100,31 @@ const tags = ref(['All'])
 const filterObject = ref({
   year: 'All',
   tag: ['All'],
-  collaborators: 0,
+  collaborator: 0,
   is_live: true,
+})
+
+const selectedCollaborator = computed(() => {
+  if (filterObject.value.collaborator === 0) {
+    return null
+  }
+  if (!collaborators.value.length) {
+    return null
+  }
+  // Find the collaborator with the selected ID
+  return collaborators.value.find(
+    (collaborator) => collaborator.id === filterObject.value.collaborator,
+  )
 })
 
 const setCollaborator = (collaborator: number) => {
   if (collaborator === 0) {
-    filterObject.value.collaborators = 0
+    filterObject.value.collaborator = 0
     return
   }
 
-  filterObject.value.collaborators =
-    filterObject.value.collaborators === collaborator ? 0 : collaborator
+  filterObject.value.collaborator =
+    filterObject.value.collaborator === collaborator ? 0 : collaborator
 }
 
 const setTag = (tag: string) => {
@@ -133,6 +151,7 @@ const setTag = (tag: string) => {
 }
 
 import { computed } from 'vue'
+import CollaboratorCard from '@/components/CollaboratorCard.vue'
 
 const fileredProjects = computed(() =>
   projects.value.filter((project) => {
@@ -145,9 +164,9 @@ const fileredProjects = computed(() =>
       filterObject.value.is_live === undefined || project.is_live === filterObject.value.is_live
 
     const matchesCollaborators =
-      filterObject.value.collaborators === 0 ||
+      filterObject.value.collaborator === 0 ||
       project.collaborators.some(
-        (collab) => collab.collaborators_id === filterObject.value.collaborators,
+        (collab) => collab.collaborators_id === filterObject.value.collaborator,
       )
 
     return matchesYear && matchesTag && matchesIsLive && matchesCollaborators
@@ -164,6 +183,9 @@ async function fetchData() {
     const projects_list = await projectsResponse.json()
     projects.value = projects_list.data
     projects.value.sort((a, b) => parseInt(b.year) - parseInt(a.year))
+
+    // filter is_live projects
+    projects.value = projects.value.filter((project) => project.is_live)
 
     const collaborators_list = await collaboratorsResponse.json()
     collaborators.value = collaborators_list.data
