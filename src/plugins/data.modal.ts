@@ -33,4 +33,21 @@ export interface CollaboratorModal {
   designation: string
   url: string
   info: string
+  email: string
+  password: string
+}
+
+export interface TaskModal {
+  id: number
+  status: string
+  user_created: string
+  date_created: string
+  user_updated: string | null
+  date_updated: string | null
+  client_name: string
+  project_name: string
+  task_title: string
+  details: string
+  category: string
+  person: number
 }

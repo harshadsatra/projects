@@ -43,7 +43,7 @@
             :class="{ current: filterObject.collaborator == 0 }"
             >ALL</a
           ><a
-            v-for="c in collaborators"
+            v-for="c in filterCollaborators"
             :key="c.collaborators_id"
             class="hover-effect hover-effect--bg"
             @click="setCollaborator(c.id)"
@@ -104,6 +104,17 @@ const filterObject = ref({
   tag: ['All'],
   collaborator: 0,
   is_live: true,
+})
+
+const filterCollaborators = computed(() => {
+  if (!projects.value.length || !collaborators.value.length) return []
+  const collaboratorIds = new Set<number>()
+  projects.value.forEach((project) => {
+    project.collaborators.forEach((collab) => {
+      collaboratorIds.add(collab.collaborators_id)
+    })
+  })
+  return collaborators.value.filter((c) => collaboratorIds.has(c.id))
 })
 
 const selectedCollaborator = computed(() => {
