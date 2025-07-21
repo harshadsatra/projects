@@ -146,7 +146,7 @@ async function handleLogin() {
       localStorage.setItem('token', btoa(loginForm.value.username + '_' + loginForm.value.password)) // Simulate a token
       loginError.value = ''
       loggedIn.value = true
-      user.value = loggedInUser
+      Object.assign(user, loggedInUser)
       console.log('Login successful')
     } else {
       loginError.value = 'Invalid username or password'
